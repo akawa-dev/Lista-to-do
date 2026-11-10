@@ -39,6 +39,10 @@ public class TelaPrincipal {
     }
 
     private void adicionarTarefa(String texto) {
+        texto = texto.trim();
+        if (texto.isEmpty()) {
+            return;
+        }
         Tarefa tarefa = new Tarefa(texto, tarefas.size());
         controlador.adicionarTarefaAtiva(tarefa);
         tblTarefas.revalidate();
