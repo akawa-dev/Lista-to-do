@@ -47,26 +47,38 @@ public class TarefaTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 0;
+        return true;
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Tarefa tarefa = tarefasAtivas.get(rowIndex);
-        tarefa.setFinalizada((Boolean) aValue);
-        if (this.exibirFinalizadas) {
-            if ((Boolean) aValue) {
-                tarefasFinalizadas.add(tarefa);
-            } else {
-                tarefasFinalizadas.remove(tarefa);
-            }
-        } else {
-            if ((Boolean) aValue) {
-                tarefasAtivas.remove(tarefa);
-                tarefasFinalizadas.add(tarefa);
-            }
+        switch (columnIndex) {
+            case 0:
+                tarefa.setFinalizada((Boolean) aValue);
+                if (this.exibirFinalizadas) {
+                    if ((Boolean) aValue) {
+                        tarefasFinalizadas.add(tarefa);
+                    } else {
+                        tarefasFinalizadas.remove(tarefa);
+                    }
+                } else {
+                    if ((Boolean) aValue) {
+                        tarefasAtivas.remove(tarefa);
+                        tarefasFinalizadas.add(tarefa);
+                    }
+                }
+                this.fireTableDataChanged();
+                break;
+            case 1:
+                String novoTexto = aValue.toString().trim();
+                if (!novoTexto.isEmpty()) {
+                    tarefa.setDescricao(novoTexto);
+                    this.fireTableCellUpdated(rowIndex, columnIndex);
+                }
+                break;
         }
-        this.fireTableDataChanged();
+
     }
 
 
