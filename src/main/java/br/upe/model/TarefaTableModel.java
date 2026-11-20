@@ -24,7 +24,7 @@ public class TarefaTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -41,13 +41,14 @@ public class TarefaTableModel extends AbstractTableModel {
         switch (c) {
             case 0 : return Boolean.class;
             case 1 : return String.class;
+            case 2 : return String.class;
         }
         return null;
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
+        return columnIndex != 2;
     }
 
     @Override
@@ -79,6 +80,11 @@ public class TarefaTableModel extends AbstractTableModel {
                 break;
         }
 
+    }
+    public void removerTarefa(int rowIndex) {
+        Tarefa tarefa = tarefasAtivas.remove(rowIndex);
+        tarefasFinalizadas.remove(tarefa);
+        this.fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
 

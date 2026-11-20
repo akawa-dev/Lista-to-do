@@ -12,6 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TelaPrincipal {
     private JPanel pnlMain;
@@ -57,6 +60,27 @@ public class TelaPrincipal {
         controlador = new TarefaControlador();
         tblTarefas = new JTable(controlador.getTarefaTableModel());
         tblTarefas.getColumnModel().getColumn(0).setMaxWidth(20);
+
+
+        // ---- coluna da lixeira ----
+        tblTarefas.getColumnModel().getColumn(2).setMaxWidth(30);
+        tblTarefas.setRowHeight(24);
+
+        DefaultTableCellRenderer rendererLixeira = new DefaultTableCellRenderer();
+        rendererLixeira.setHorizontalAlignment(SwingConstants.CENTER);
+        rendererLixeira.setIcon(new ImageIcon(getClass().getResource("/lixeira.png")));
+        tblTarefas.getColumnModel().getColumn(2).setCellRenderer(rendererLixeira);
+        tblTarefas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int linha = tblTarefas.rowAtPoint(e.getPoint());
+                int coluna = tblTarefas.columnAtPoint(e.getPoint());
+                if (linha >= 0 && coluna == 2) {
+                    controlador.removerTarefa(linha);
+                }
+            }
+        });
+        }
     }
 
-}
+

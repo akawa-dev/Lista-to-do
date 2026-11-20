@@ -26,6 +26,10 @@ public class TarefaControlador {
         tarefaTableModel.setExibirFinalizadas(exibir);
     }
 
+    public void removerTarefa(int linha) {
+        tarefaTableModel.removerTarefa(linha);
+    }
+
 
     //Getter e Setters
 
